@@ -25,11 +25,15 @@ blogRouter.post('/', (request, response, next) => {
     title: body.title,
     author: body.author,
     url: body.url,
+    date: new Date(),
     likes: body.likes,
   });
-  blog.save().then((savedBlog) => {
-    response.json(savedBlog).catch((error) => next(error));
-  });
+  blog
+    .save()
+    .then((savedBlog) => {
+      response.json(savedBlog);
+    })
+    .catch((error) => next(error));
 });
 
 // DELETE FROM DB
