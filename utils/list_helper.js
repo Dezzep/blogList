@@ -15,14 +15,14 @@ const totalLikes = (blogData) => {
   return total;
 };
 
-const favouriteBlog = (blogData) => {
+const favoriteBlog = (blogData) => {
   let mostLikes = 0;
   let mostLikedIndex = 0;
 
   blogData.map((blog, index) => {
-    blog.likes > mostLikes
-      ? ((mostLikedIndex = index), (mostLikes = blog.likes))
-      : null;
+    if (blog.likes > mostLikes) {
+      (mostLikedIndex = index), (mostLikes = blog.likes);
+    }
   });
   return blogData[mostLikedIndex];
 };
@@ -58,6 +58,8 @@ const mostLikes = (blogs) => {
     authorTotalLikes[index].likes += likes;
   });
 
+  // for each author.. is their like count higher than the mostLiked (var declared at top of scope?)
+  // if true: set the author and their like count as the value to return.
   authorTotalLikes.forEach((author) => {
     if (author.likes > mostLiked) {
       mostLiked = author.likes;
@@ -70,7 +72,7 @@ const mostLikes = (blogs) => {
 module.exports = {
   dummy,
   totalLikes,
-  favouriteBlog,
+  favoriteBlog,
   mostBlogs,
   mostLikes,
 };

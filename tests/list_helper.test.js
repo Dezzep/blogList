@@ -87,11 +87,11 @@ describe('total likes', () => {
 });
 describe('most favourited', () => {
   test('when list has only one blog, it should be itself', () => {
-    const result = listHelper.favouriteBlog(listWithOneBlog);
+    const result = listHelper.favoriteBlog(listWithOneBlog);
     expect(result).toBe(listWithOneBlog[0]);
   });
   test('when list has many blogs, should return 2nd index, even if there is a tie breaker', () => {
-    const r = listHelper.favouriteBlog(blogs);
+    const r = listHelper.favoriteBlog(blogs);
     expect(r).toEqual(blogs[2]);
   });
 });

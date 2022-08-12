@@ -3,7 +3,7 @@ const Blog = require('../models/blog');
 
 // GET ALL DATA FROM MONGODB/BLOG
 blogRouter.get('/', (request, response) => {
-  NodeIterator.find({}).then((blogs) => {
+  Blog.find({}).then((blogs) => {
     response.json(blogs);
   });
 });
