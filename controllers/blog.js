@@ -2,47 +2,47 @@ const blogRouter = require('express').Router();
 const Blog = require('../models/blog');
 
 // GET ALL DATA FROM MONGODB/BLOG
-blogRouter.get('/', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
-  });
+blogRouter.get('/', async (request, response) => {
+  const blogs = await Blog.find({});
+  response.json(blogs);
 });
 
 // GET BY ID
-blogRouter.get('/:id', (request, response, next) => {
-  Blog.findById(request.params.id)
-    .then((blog) => {
-      blog ? response.json(blog) : response.status(404).end();
-    })
-    .catch((error) => next(error));
+blogRouter.get('/:id', async (request, response, next) => {
+  try {
+    const blogs = await Blog.findById(request.params.id);
+    blogs ? response.json(blogs) : response.status(404).end();
+  } catch (error) {
+    next(error);
+  }
 });
 
 // CREATE (POST) NEW ENTRY
-blogRouter.post('/', (request, response, next) => {
-  const body = request.body;
-
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    date: new Date(),
-    likes: body.likes,
-  });
-  blog
-    .save()
-    .then((savedBlog) => {
-      response.json(savedBlog);
-    })
-    .catch((error) => next(error));
+blogRouter.post('/', async (request, response, next) => {
+  try {
+    const body = await request.body;
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      date: new Date(),
+      likes: body.likes,
+    });
+    await blog.save();
+    response.json(blog);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // DELETE FROM DB
-blogRouter.delete('/:id', (request, response, next) => {
-  Blog.findByIdAndRemove(request.params.id)
-    .then(() => {
-      response.status(204).end();
-    })
-    .catch((error) => next(error));
+blogRouter.delete('/:id', async (request, response, next) => {
+  try {
+    await Blog.findByIdAndRemove(request.params.id);
+    response.status(204).end();
+  } catch (error) {
+    next(error);
+  }
 });
 
 //EDIT ITEM ON DB
