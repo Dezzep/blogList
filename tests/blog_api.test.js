@@ -4,6 +4,8 @@ const helper = require('./test_helper');
 const app = require('../app');
 const api = supertest(app);
 const Blog = require('../models/blog');
+const bcrypt = require('bcrypt');
+const User = require('../models/user');
 
 beforeEach(async () => {
   await Blog.deleteMany({});
@@ -107,18 +109,68 @@ describe('when updating a blog', () => {
   test('likes can be updated', async () => {
     const blogsAtStart = (await helper.blogsInDb()).map((blogs) => blogs);
     await Promise.all(blogsAtStart);
+    const blogSelected = blogsAtStart.filter((b) => b.title === 'Susans Story');
 
-    const likesAtStart = blogsAtStart[0].likes;
+    const likesAtStart = blogSelected[0].likes;
 
     await api
-      .put(`/api/blogs/${blogsAtStart[0].id}`)
+      .put(`/api/blogs/${blogSelected[0].id}`)
       .expect('Content-Type', /application\/json/)
       .expect(200);
 
-    await Blog.findByIdAndUpdate(blogsAtStart[0].id, { likes: 35 });
+    await Blog.findByIdAndUpdate(blogSelected[0].id, {
+      likes: likesAtStart + 1,
+    });
     const blogsAtEnd = await helper.blogsInDb();
+    const endBlog = blogsAtEnd.filter((b) => b.title === 'Susans Story');
 
-    expect(likesAtStart).toBeLessThan(blogsAtEnd[0].likes);
+    expect(likesAtStart).toBeLessThan(endBlog[0].likes);
+  });
+});
+
+describe('when there is initially one user in db', () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+
+    const passwordHash = await bcrypt.hash('sekret', 10);
+    const user = new User({
+      username: 'roots',
+      name: 'penelope',
+      passwordHash,
+    });
+
+    await user.save();
+  });
+
+  test('creation succeeds with a fresh username', async () => {
+    const usersAtStart = await helper.UsersInDb();
+
+    const newUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'susanisactuallyhere',
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const usersAtEnd = await helper.UsersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
+
+    const usernames = usersAtEnd.map((u) => u.username);
+    expect(usernames).toContain(newUser.username);
+  });
+  test('creation fails when username below < 3 chars', async () => {
+    const badUser = {
+      username: 'bo',
+      name: 'Matti Luukkainen',
+      password: 'susanisactuallyhere',
+    };
+
+    await api.post('/api/users').send(badUser).expect(400);
   });
 });
 afterAll(() => {

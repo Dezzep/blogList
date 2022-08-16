@@ -1,11 +1,13 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlN1c2FuIiwiaWQiOiI2MmZiYzVkM2I5MTMzNmQwOGU5YThlNzgiLCJpYXQiOjE2NjA2NzE3NzV9.nrU_8LBv2kcf1LiGzxvZrL3IZQCEvTWjD3A0Vuz_LBU
 
 {
-  "title": "Susans Story",
+  "title": "Susans Story, token authorization!",
   "author": "Susan Ofcourse",
   "url": "testURL.com",
-  "likes": 33
+  "likes": 33,
+  "userId":"62fbc540b91336d08e9a8e6e"
 }
 ###
 GET http://localhost:3001/api/blogs
