@@ -15,6 +15,7 @@ const initialBlogs = [
     date: new Date(),
     url: 'wasdasdasd.ca',
     likes: 25,
+    userId: '62fbc540b91336d08e9a8e6e',
   },
 ];
 const newBlog = {
@@ -23,6 +24,7 @@ const newBlog = {
   date: new Date(),
   url: 'susanisreallygoodatwriting.com',
   likes: 4,
+  userId: '62fbc540b91336d08e9a8e6e',
 };
 
 const blogMissingContent = {

@@ -59,7 +59,11 @@ describe('when deleting a blog', () => {
 describe('when adding a blog', () => {
   test('a valid blog can be added', async () => {
     await api
+
       .post('/api/blogs')
+      .set('authorization', 'Bearer asfasg23tg3qfuhqfw')
+      .set('token', 'HJSFAHUWFUHU2hjasduh')
+
       .send(helper.newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/);
