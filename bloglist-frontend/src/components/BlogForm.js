@@ -45,7 +45,7 @@ const BlogForm = ({
             onChange={handleUrlChange}
           />
         </label>
-        <button onClick={(e) => blogSubmitHandler(e)}>Login</button>
+        <button onClick={(e) => blogSubmitHandler(e)}>Submit</button>
       </form>
     );
   }
