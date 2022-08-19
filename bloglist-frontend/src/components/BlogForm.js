@@ -1,13 +1,30 @@
-const BlogForm = ({
-  user,
-  title,
-  handleAuthorChange,
-  handleTitleChange,
-  handleUrlChange,
-  blogSubmitHandler,
-  url,
-  author,
-}) => {
+import { useState } from 'react';
+
+const BlogForm = ({ user, blogSubmitHandler }) => {
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleAuthorChange = (e) => {
+    setAuthor(e.target.value);
+  };
+  const handleUrlChange = (e) => {
+    setUrl(e.target.value);
+  };
+
+  const handleSubmit = (e, title, author, url) => {
+    blogSubmitHandler(e, title, author, url);
+
+    if (title.length >= 3 && url.length >= 3) {
+      setTitle('');
+      setAuthor('');
+      setUrl('');
+    }
+  };
+
   if (user) {
     return (
       <form
@@ -45,7 +62,9 @@ const BlogForm = ({
             onChange={handleUrlChange}
           />
         </label>
-        <button onClick={(e) => blogSubmitHandler(e)}>Submit</button>
+        <button onClick={(e) => handleSubmit(e, title, author, url)}>
+          Submit
+        </button>
       </form>
     );
   }

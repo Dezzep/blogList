@@ -1,14 +1,17 @@
-const LoginForm = ({
-  loginFormSubmit,
-  handleUsernameChange,
-  handlePasswordChange,
-  password,
-  username,
-  user,
-}) => {
-  const buttonSubmitHandler = (e) => {
-    loginFormSubmit(e);
+import { useState } from 'react';
+
+const LoginForm = ({ loginFormSubmit, user }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
   if (user === null) {
     return (
       <form
@@ -37,9 +40,14 @@ const LoginForm = ({
             onChange={handlePasswordChange}
           />
         </label>
-        <button onClick={(e) => buttonSubmitHandler(e)}>Login</button>
+        <button onClick={(e) => loginFormSubmit(e, username, password)}>
+          Login
+        </button>
       </form>
     );
+  } else {
+    setPassword('');
+    setUsername('');
   }
 };
 

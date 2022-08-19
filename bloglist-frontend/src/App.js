@@ -8,38 +8,15 @@ import BlogForm from './components/BlogForm';
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
   const [message, setMessage] = useState(null);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
 
   const logOut = () => {
     setUser(null);
     localStorage.removeItem('loggedBloglistUser');
   };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-  const handleAuthorChange = (e) => {
-    setAuthor(e.target.value);
-  };
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const loginFormSubmit = async (event) => {
+  const loginFormSubmit = async (event, username, password) => {
     event.preventDefault();
 
     try {
@@ -50,8 +27,8 @@ const App = () => {
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
-      setUsername('');
-      setPassword('');
+
+      return 1;
     } catch (exception) {
       setErrorMessage('Wrong Username or Password');
       setTimeout(() => {
@@ -60,7 +37,7 @@ const App = () => {
     }
   };
 
-  const blogSubmitHandler = async (e) => {
+  const blogSubmitHandler = async (e, title, author, url) => {
     e.preventDefault();
     if (title.length < 3 || url.length < 3) {
       setErrorMessage('URL or TITLE invalid');
@@ -99,14 +76,7 @@ const App = () => {
   if (!user) {
     return (
       <div>
-        <LoginForm
-          loginFormSubmit={loginFormSubmit}
-          handlePasswordChange={handlePasswordChange}
-          handleUsernameChange={handleUsernameChange}
-          password={password}
-          username={username}
-          user={user}
-        />
+        <LoginForm loginFormSubmit={loginFormSubmit} user={user} />
 
         <h3 style={{ color: 'red' }}>{errorMessage}</h3>
       </div>
@@ -119,14 +89,7 @@ const App = () => {
         {user.name} logged in <button onClick={logOut}>Log Out</button>
       </div>
       <h2>create new</h2>
-      <BlogForm
-        user={user}
-        title={title}
-        handleAuthorChange={handleAuthorChange}
-        handleTitleChange={handleTitleChange}
-        handleUrlChange={handleUrlChange}
-        blogSubmitHandler={blogSubmitHandler}
-      />
+      <BlogForm user={user} blogSubmitHandler={blogSubmitHandler} />
       <h3 style={{ color: 'red', backgroundColor: '#3f3f3f' }}>
         {errorMessage}
       </h3>
