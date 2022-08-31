@@ -38,6 +38,7 @@ const BlogForm = ({ user, blogSubmitHandler }) => {
         <label>
           Title:
           <input
+            id="title"
             type={'text'}
             name={'username'}
             value={title}
@@ -47,6 +48,7 @@ const BlogForm = ({ user, blogSubmitHandler }) => {
         <label>
           Author:
           <input
+            id="author"
             type={'text'}
             name={'author'}
             value={author}
@@ -56,13 +58,17 @@ const BlogForm = ({ user, blogSubmitHandler }) => {
         <label>
           URL:
           <input
+            id="url"
             type={'text'}
             name={'url'}
             value={url}
             onChange={handleUrlChange}
           />
         </label>
-        <button onClick={(e) => handleSubmit(e, title, author, url)}>
+        <button
+          onClick={(e) => handleSubmit(e, title, author, url)}
+          className="submit"
+        >
           Submit
         </button>
       </form>

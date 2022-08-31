@@ -17,13 +17,12 @@ const Blog = ({ blog, addLikes, deleteBlog }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
-  if (blog.user.id !== undefined) {
-  }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       <div style={hideDetails}>
-        {blog.title} -  {blog.author} <button onClick={toggleDetails}>view</button>
+        {blog.title} - {blog.author}{' '}
+        <button onClick={toggleDetails}>view</button>
       </div>
       <div style={showDetails}>
         <div>
@@ -31,8 +30,9 @@ const Blog = ({ blog, addLikes, deleteBlog }) => {
         </div>
         <p>{blog.url}</p>
         <div>
-          {blog.likes}{' '}
+          <p className="likeCount">{blog.likes}</p>{' '}
           <button
+            className="like"
             onClick={() =>
               addLikes(
                 blog.id,

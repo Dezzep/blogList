@@ -82,13 +82,14 @@ const App = () => {
   };
 
   const deleteBlog = async (id) => {
-    if (window.confirm("do you really want to delete this?"))
-    {
-    try {
-      await blogService.remove(id);
-      getSetAndSort();
-    } catch {setErrorMessage('you do not have permission to delete this blog.')}
-  }
+    if (window.confirm('do you really want to delete this?')) {
+      try {
+        await blogService.remove(id);
+        getSetAndSort();
+      } catch {
+        setErrorMessage('you do not have permission to delete this blog.');
+      }
+    }
   };
 
   useEffect(() => {
