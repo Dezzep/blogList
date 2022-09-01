@@ -68,6 +68,7 @@ const BlogForm = ({ user, blogSubmitHandler }) => {
         <button
           onClick={(e) => handleSubmit(e, title, author, url)}
           className="submit"
+          id="submit"
         >
           Submit
         </button>

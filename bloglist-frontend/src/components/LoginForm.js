@@ -28,6 +28,7 @@ const LoginForm = ({ loginFormSubmit, user }) => {
             type={'text'}
             name={'username'}
             value={username}
+            id={'username'}
             onChange={handleUsernameChange}
           />
         </label>
@@ -37,10 +38,14 @@ const LoginForm = ({ loginFormSubmit, user }) => {
             type={'password'}
             name={'password'}
             value={password}
+            id={'password'}
             onChange={handlePasswordChange}
           />
         </label>
-        <button onClick={(e) => loginFormSubmit(e, username, password)}>
+        <button
+          id="login-button"
+          onClick={(e) => loginFormSubmit(e, username, password)}
+        >
           Login
         </button>
       </form>

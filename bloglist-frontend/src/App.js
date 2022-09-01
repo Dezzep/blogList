@@ -129,9 +129,12 @@ const App = () => {
       <h3 style={{ backgroundColor: 'green' }}>{message}</h3>
 
       <h2>blogs</h2>
-      {blogs.map((blog) => (
+      {blogs.map((blog, i) => (
         <Blog
           key={blog.id}
+          viewId={`viewId${i}`}
+          likeId={`likeId${i}`}
+          deleteId={`deleteblog${i}`}
           blog={blog}
           addLikes={addLikes}
           deleteBlog={deleteBlog}
